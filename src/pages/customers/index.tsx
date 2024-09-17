@@ -70,8 +70,9 @@ export default function Index() {
   };
   return (
     <div className="main-content-with-navbar flex flex-col p-10 gap-10">
-      <b>Customer Data Overview</b>
-
+      <span className="bg-blue-500 py-2 px-4 font-bold rounded-lg tracking-widest text-white">
+        Customer Accounts Overview
+      </span>
       <DataTable columns={columns} data={DUMMY_DATA} onRowClick={onRowClick} />
     </div>
   );

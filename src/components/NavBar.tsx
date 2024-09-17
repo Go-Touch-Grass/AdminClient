@@ -9,15 +9,16 @@ const NavBar = () => {
       text: "Business",
       urlKeyword: "business",
     },
-    {
-      href: "/customers",
-      text: "Customers",
-      urlKeyword: "customers",
-    },
+
     {
       href: "/requests",
       text: "Requests",
       urlKeyword: "requests",
+    },
+    {
+      href: "/customers",
+      text: "Customers",
+      urlKeyword: "customers",
     },
   ];
 
@@ -25,7 +26,7 @@ const NavBar = () => {
     router.push("/");
   };
   return (
-    <div className="fixed z-30 w-56 bg-white flex flex-col h-screen justify-start py-6 border border-border-primary overflow-auto">
+    <div className="fixed z-30 w-56 bg-white flex flex-col h-screen justify-between py-6 border border-border-primary overflow-auto">
       <div className="flex flex-col justify-start p-2">
         {adminNavOptions.map((navOption, index) => (
           <div key={index} className="p-2">
@@ -38,15 +39,13 @@ const NavBar = () => {
         ))}
       </div>
       <hr className="border-border-primary w-full p-2"></hr>
-      <div className="p-2.5">
-        <div className="p-2">
-          <button
-            onClick={handleLogout}
-            className="rounded-xl flex flex-row align-center self-stretch w-full py-2.5 px-4"
-          >
-            <span className="hover:underline text-text-primary">Log out</span>
-          </button>
-        </div>
+      <div className="pl-10">
+        <button
+          onClick={handleLogout}
+          className="rounded-3xl p-4 bg-blue-500 text-white font-bold text-lg hover:bg-blue-600 transition-colors duration-300"
+        >
+          <span className="hover:underline text-text-primary">Log out</span>
+        </button>
       </div>
     </div>
   );
