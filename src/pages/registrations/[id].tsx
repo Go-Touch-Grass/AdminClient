@@ -19,6 +19,7 @@ import { Input } from "@/components/ui/input";
 const CustomerDetails = () => {
   const router = useRouter();
   const { id } = router.query;
+  const [remarks, setRemarks] = useState<string>("");
   const [registrationDetails, setRegistrationDetails] =
     useState<Registration>();
 
@@ -52,7 +53,7 @@ const CustomerDetails = () => {
   const onRejectRegistration = async () => {
     const responseBody = {
       status: "rejected",
-      remarks: "",
+      remarks: remarks,
     };
     try {
       await axiosClient.put(`/registration/${id}`, responseBody);
@@ -60,6 +61,10 @@ const CustomerDetails = () => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const onAddRemarks = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setRemarks(e.target.value);
   };
 
   return (
@@ -95,7 +100,7 @@ const CustomerDetails = () => {
               <AlertDialogDescription>
                 Please provide remarks/reasons for the business.
               </AlertDialogDescription>
-              <Input></Input>
+              <Input onChange={onAddRemarks}></Input>
             </AlertDialogHeader>
             <AlertDialogFooter>
               <AlertDialogCancel>Cancel</AlertDialogCancel>
