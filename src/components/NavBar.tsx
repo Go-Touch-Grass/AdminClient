@@ -1,8 +1,12 @@
 import { useRouter } from "next/router";
 import Navigation from "./elements/Navigation";
+import { AppDispatch, store } from "@/redux/store";
+import { useDispatch } from "react-redux";
+import { clearToken } from "@/redux/auth/authSlice";
 
 const NavBar = () => {
   const router = useRouter();
+  const dispatch = useDispatch<AppDispatch>();
   const adminNavOptions = [
     {
       href: "/business",
@@ -11,9 +15,9 @@ const NavBar = () => {
     },
 
     {
-      href: "/requests",
-      text: "Requests",
-      urlKeyword: "requests",
+      href: "/registrations",
+      text: "Registrations",
+      urlKeyword: "registrations",
     },
     {
       href: "/customers",
@@ -23,7 +27,10 @@ const NavBar = () => {
   ];
 
   const handleLogout = () => {
-    router.push("/");
+    if (store) {
+      dispatch(clearToken());
+      router.push("/");
+    }
   };
   return (
     <div className="fixed z-30 w-56 bg-white flex flex-col h-screen justify-between py-6 border border-border-primary overflow-auto">

@@ -1,56 +1,56 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "@/components/DataTable";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
 import axiosClient from "@/network/axiosClient";
-import { Business } from "@/models/BusinessModel";
+import { useEffect, useState } from "react";
+import { Registration } from "@/models/RequestModel";
 
-const columns: ColumnDef<Business>[] = [
+const columns: ColumnDef<Registration>[] = [
   {
-    accessorKey: "firstName",
-    header: "First Name",
+    accessorKey: "entityName",
+    header: "Name",
   },
   {
-    accessorKey: "lastName",
-    header: "Last Name",
+    accessorKey: "location",
+    header: "Location",
   },
   {
-    accessorKey: "username",
-    header: "Username",
+    accessorKey: "category",
+    header: "Category",
   },
   {
-    accessorKey: "email",
-    header: "Email",
+    accessorKey: "status",
+    header: "Status",
   },
 ];
 
 export default function Index() {
-  const [businessData, setBusinessData] = useState<Business[]>([]);
+  const router = useRouter();
+  const [registrationData, setRegistrationData] = useState<Registration[]>([]);
+
   useEffect(() => {
-    const fetchBusinessData = async () => {
+    const fetchRegistrationData = async () => {
       try {
-        const { data } = await axiosClient.get(`/business`);
-        setBusinessData(data);
+        const { data } = await axiosClient.get(`/registration`);
+        setRegistrationData(data);
         console.log(data);
       } catch (error) {
         console.error(error);
       }
     };
-    fetchBusinessData();
+    fetchRegistrationData();
   }, []);
-  const router = useRouter();
   const onRowClick = (id: string) => {
-    router.push(`/business/${id}`);
+    router.push(`/registrations/${id}`);
   };
   return (
     <div className="main-content-with-navbar flex flex-col p-10 gap-10">
       <span className="bg-blue-500 py-2 px-4 font-bold rounded-lg tracking-widest text-white">
-        Business Accounts Overview
+        Registration Overview
       </span>
-
       <DataTable
         columns={columns}
-        data={businessData}
+        data={registrationData}
         onRowClick={onRowClick}
       />
     </div>
