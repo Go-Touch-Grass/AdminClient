@@ -22,22 +22,22 @@ export default function Navigation({
       <div
         className={`${
           router.pathname === href || router.pathname.includes(urlKeyword)
-            ? "bg-red-600"
-            : "bg-white"
+            ? "bg-blue-500 font-bold"
+            : "bg-white font-bold"
         } rounded-xl flex flex-row align-center self-stretch w-full py-2.5 px-4`}
       >
         <div
           className={`${
             router.pathname === href || router.pathname.includes(urlKeyword)
-              ? "text-white"
-              : "text-black"
+              ? "text-white font-bold"
+              : "text-black font-bold"
           } text-base flex flex-row justify-center hover:underline`}
         >
           <div
             className={`mr-4 self-center ${
               router.pathname === href || router.pathname.includes(urlKeyword)
-                ? "outline-white"
-                : "outline-black"
+                ? "outline-white font-bold"
+                : "outline-black font-bold"
             } `}
           >
             {props?.icon && props.icon}
