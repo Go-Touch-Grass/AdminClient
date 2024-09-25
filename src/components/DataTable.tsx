@@ -5,6 +5,9 @@ import {
   ColumnFiltersState,
   getFilteredRowModel,
   useReactTable,
+  getPaginationRowModel,
+  getSortedRowModel,
+  SortingState,
 } from "@tanstack/react-table";
 
 import {
@@ -16,6 +19,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { useState } from "react";
 
 interface DataTableProps<TData, TValue> {
@@ -38,6 +42,7 @@ export function DataTable<TData, TValue>({
   data,
   onRowClick,
 }: DataTableProps<TData, TValue>) {
+  const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [globalFilter, setGlobalFilter] = useState("");
   const table = useReactTable({
@@ -46,9 +51,13 @@ export function DataTable<TData, TValue>({
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     onGlobalFilterChange: setGlobalFilter,
+    getPaginationRowModel: getPaginationRowModel(),
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
     state: {
       globalFilter,
       columnFilters,
+      sorting,
     },
   });
 
@@ -92,9 +101,10 @@ export function DataTable<TData, TValue>({
                         ? () => onRowClick(getRowId(row.original))
                         : () => {}
                     }
+                    className="hover: cursor-pointer"
                   >
                     {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id}>
+                      <TableCell key={cell.id} className="p-4">
                         {flexRender(
                           cell.column.columnDef.cell,
                           cell.getContext()
@@ -116,8 +126,26 @@ export function DataTable<TData, TValue>({
             </TableBody>
           </Table>
         ) : (
-          <b>No Data Available</b>
+          <b className="p-10 py-20">No Data Available</b>
         )}
+      </div>
+      <div className="flex items-center justify-end space-x-2 py-4">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => table.previousPage()}
+          disabled={!table.getCanPreviousPage()}
+        >
+          Previous
+        </Button>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => table.nextPage()}
+          disabled={!table.getCanNextPage()}
+        >
+          Next
+        </Button>
       </div>
     </div>
   );
