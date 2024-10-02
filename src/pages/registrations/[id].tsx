@@ -44,7 +44,7 @@ const CustomerDetails = () => {
     };
     try {
       await axiosClient.put(`/registration/${id}`, responseBody);
-      router.push("/registrations");
+      router.push("/requests");
     } catch (error) {
       console.log(error);
     }

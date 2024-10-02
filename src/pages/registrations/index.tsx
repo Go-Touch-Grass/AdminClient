@@ -70,6 +70,7 @@ export default function Index() {
   const router = useRouter();
   const [registrationData, setRegistrationData] = useState<Registration[]>([]);
 
+  //fetching all business registrations
   useEffect(() => {
     const fetchRegistrationData = async () => {
       try {
@@ -82,18 +83,20 @@ export default function Index() {
     };
     fetchRegistrationData();
   }, []);
-  const onRowClick = (id: string) => {
+  const onRegistrationsRowClick = (id: string) => {
     router.push(`/registrations/${id}`);
   };
+
   return (
     <div className="main-content-with-navbar flex flex-col p-10 gap-10">
-      <span className="bg-blue-500 py-2 px-4 font-bold rounded-lg tracking-widest text-white">
-        Registration Overview
+      <span className="bg-blue-500 py-2 px-4 font-bold rounded-lg tracking-widest text-white text-2xl">
+        All Pending Business Registrations
       </span>
+
       <DataTable
         columns={columns}
         data={registrationData}
-        onRowClick={onRowClick}
+        onRowClick={onRegistrationsRowClick}
       />
     </div>
   );
