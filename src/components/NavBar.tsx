@@ -18,11 +18,11 @@ const NavBar = () => {
       text: "Registrations",
       urlKeyword: "registrations",
     },
-    {
-      href: "/requests",
-      text: "Requests",
-      urlKeyword: "requests",
-    },
+    // {
+    //   href: "/requests",
+    //   text: "Requests",
+    //   urlKeyword: "requests",
+    // },
     {
       href: "/customers",
       text: "Customers",
