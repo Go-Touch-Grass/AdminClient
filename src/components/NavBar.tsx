@@ -13,12 +13,16 @@ const NavBar = () => {
       text: "Business",
       urlKeyword: "business",
     },
-
     {
       href: "/registrations",
       text: "Registrations",
       urlKeyword: "registrations",
     },
+    // {
+    //   href: "/requests",
+    //   text: "Requests",
+    //   urlKeyword: "requests",
+    // },
     {
       href: "/customers",
       text: "Customers",

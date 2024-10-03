@@ -27,7 +27,7 @@ export default function RootLayout({
     }
   }, [loggedOut, router]);
 
-  const keywords = ["business", "customer", "registrations"];
+  const keywords = ["business", "customer", "registrations", "requests"];
   const containsKeyword = keywords.some((word) =>
     router.pathname.includes(word)
   );

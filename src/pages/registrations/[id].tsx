@@ -15,6 +15,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Input } from "@/components/ui/input";
+import { ArrowLeft } from "lucide-react";
 
 const CustomerDetails = () => {
   const router = useRouter();
@@ -69,9 +70,17 @@ const CustomerDetails = () => {
 
   return (
     <div className="main-content-with-navbar flex flex-col p-10 gap-10">
-      <span className="bg-blue-500 py-2 px-4 font-bold rounded-lg tracking-widest text-white">
-        Registration Details
-      </span>
+      <div className="flex flex-row w-full gap-2">
+        <Button
+          onClick={() => router.back()}
+          className="bg-blue-500 py-2 px-4 rounded-lg tracking-widest"
+        >
+          <ArrowLeft />
+        </Button>
+        <div className="w-full bg-blue-500 py-2 px-4 font-bold rounded-lg tracking-widest text-white text-2xl">
+          Registration Details
+        </div>
+      </div>
       <p>Name: {registrationDetails?.entityName}</p>
       <p>Category: {registrationDetails?.category}</p>
       <p>Location: {registrationDetails?.location}</p>

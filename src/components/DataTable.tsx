@@ -104,7 +104,7 @@ export function DataTable<TData, TValue>({
                     className="hover: cursor-pointer"
                   >
                     {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id} className="p-4">
+                      <TableCell key={cell.id} className="p-4 items-center">
                         {flexRender(
                           cell.column.columnDef.cell,
                           cell.getContext()
@@ -126,7 +126,7 @@ export function DataTable<TData, TValue>({
             </TableBody>
           </Table>
         ) : (
-          <b className="p-10 py-20">No Data Available</b>
+          <b className="flex p-10 justify-center">No Data Available</b>
         )}
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
