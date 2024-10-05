@@ -32,7 +32,7 @@ const CustomerDetails = () => {
       if (!id) return null;
       try {
         const { data } = await axiosClient.get(`/customer/${id}/transactions`);
-        // setTransactionsData(data);
+        setTransactionsData(data);
         console.log(data);
       } catch (error) {
         console.error(error);
