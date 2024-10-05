@@ -1,12 +1,11 @@
 import { DataTable } from "@/components/DataTable";
 import { useRouter } from "next/router";
-import { ColumnDef } from "@tanstack/react-table";
 import { useEffect, useState } from "react";
 import axiosClient from "@/network/axiosClient";
 import { Customer } from "@/models/CustomerModel";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
-import { Transaction } from "@/models/TransactionModel";
+import { Transaction, transactionColumns } from "@/models/TransactionModel";
 
 const CustomerDetails = () => {
   const router = useRouter();
@@ -63,7 +62,7 @@ const CustomerDetails = () => {
         <span className="bg-blue-500 py-2 px-4 font-bold rounded-lg tracking-widest text-white text-xl">
           All Transactions
         </span>
-        <DataTable columns={[]} data={[]} />
+        <DataTable columns={transactionColumns} data={transactionsData} />
       </div>
     </div>
   );
