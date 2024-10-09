@@ -5,4 +5,6 @@ export type Business = {
   email: string;
   password: string;
   username: string;
+  banStatus: boolean;
+  banRemarks: string;
 };

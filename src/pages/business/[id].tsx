@@ -23,8 +23,7 @@ const BusinessDetails = () => {
   const router = useRouter();
   const [businessDetails, setBusinessDetails] = useState<Business>();
   const [transactionsData, setTransactionsData] = useState<Transaction[]>([]);
-  const [remarks, setRemarks] = useState<string>("Payment failed.");
-  const [isBanned, setIsBanned] = useState<boolean>(false);
+  const [remarks, setRemarks] = useState<string>("");
   const { id } = router.query;
 
   useEffect(() => {
@@ -33,6 +32,7 @@ const BusinessDetails = () => {
       try {
         const { data } = await axiosClient.get(`/business/${id}`);
         setBusinessDetails(data);
+        setRemarks(data.banRemarks);
       } catch (error) {
         console.error(error);
       }
@@ -58,10 +58,34 @@ const BusinessDetails = () => {
   };
 
   const onBanBusiness = async () => {
-    setIsBanned(true);
+    try {
+      await axiosClient.put(`/business/${id}/updateBanStatus`, {
+        status: true,
+        remarks: remarks,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+    if (businessDetails) {
+      businessDetails.banStatus = true;
+    }
+    router.push("/business");
   };
+
   const onUnbanBusiness = async () => {
-    setIsBanned(false);
+    try {
+      await axiosClient.put(`/business/${id}/updateBanStatus`, {
+        status: false,
+        remarks: "",
+      });
+    } catch (error) {
+      console.error(error);
+    }
+
+    if (businessDetails) {
+      businessDetails.banStatus = false;
+    }
+    router.push("/business");
   };
 
   return (
@@ -81,7 +105,7 @@ const BusinessDetails = () => {
       <p>Last Name: {businessDetails?.lastName}</p>
       <p>Username: {businessDetails?.username}</p>
       <p>Email: {businessDetails?.email}</p>
-      {!isBanned ? (
+      {!businessDetails?.banStatus ? (
         <AlertDialog>
           <AlertDialogTrigger asChild>
             <Button className="bg-red-700 hover:bg-red-700 w-fit">
