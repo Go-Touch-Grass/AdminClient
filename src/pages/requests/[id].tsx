@@ -1,7 +1,8 @@
 import { useRouter } from "next/router";
-import { Registration } from "@/models/RequestModel";
+import { ItemRequest } from "@/models/ItemRequestModel";
 import { useEffect, useState } from "react";
 import axiosClient from "@/network/axiosClient";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import {
   AlertDialog,
@@ -17,48 +18,47 @@ import {
 import { Input } from "@/components/ui/input";
 import { ArrowLeft } from "lucide-react";
 
-const RegistrationsDetails = () => {
+const RequestsDetails = () => {
   const router = useRouter();
   const { id } = router.query;
   const [remarks, setRemarks] = useState<string>("");
-  const [registrationDetails, setRegistrationDetails] =
-    useState<Registration>();
+  const [itemDetails, setItemDetails] =
+    useState<ItemRequest>();
 
   useEffect(() => {
-    const fetchRegistrationDetails = async () => {
+    const fetchItemDetails = async () => {
       if (!id) return null;
       try {
-        const { data } = await axiosClient.get(`/registration/${id}`);
-        setRegistrationDetails(data);
-        console.log(data);
+        const { data } = await axiosClient.get(`/item_requests/${id}`);
+        setItemDetails(data);
       } catch (error) {
         console.error(error);
       }
     };
-    fetchRegistrationDetails();
+    fetchItemDetails();
   }, [id]);
 
-  const onApproveRegistration = async () => {
+  const onApproveRequest = async () => {
     const responseBody = {
       status: "approved",
       remarks: "",
     };
     try {
-      await axiosClient.put(`/registration/${id}`, responseBody);
-      router.push("/registrations");
+      await axiosClient.put(`/item_requests/${id}`, responseBody);
+      router.push("/requests");
     } catch (error) {
       console.log(error);
     }
   };
 
-  const onRejectRegistration = async () => {
+  const onRejectRequest = async () => {
     const responseBody = {
       status: "rejected",
       remarks: remarks,
     };
     try {
-      await axiosClient.put(`/registration/${id}`, responseBody);
-      router.push("/registrations");
+      await axiosClient.put(`/item_requests/${id}`, responseBody);
+      router.push("/requests");
     } catch (error) {
       console.log(error);
     }
@@ -78,20 +78,29 @@ const RegistrationsDetails = () => {
           <ArrowLeft />
         </Button>
         <div className="w-full bg-blue-500 py-2 px-4 font-bold rounded-lg tracking-widest text-white text-2xl">
-          Registration Details
+          Item Request Details
         </div>
       </div>
-      <p>Name: {registrationDetails?.entityName}</p>
-      <p>Category: {registrationDetails?.category}</p>
-      <p>Location: {registrationDetails?.location}</p>
+    
+      <p>Name: {itemDetails?.name}</p>
+      <p>Type: {itemDetails?.type}</p>
+
+      <p>Preview: </p>
+      {itemDetails && <Image
+                            src={itemDetails.filepath}
+                            alt={itemDetails.name}
+                            width={200}
+                            height={200}
+                            className="rounded border"
+                        />}
       <p>
         Remarks:
-        {registrationDetails?.remarks ? registrationDetails?.remarks : "-"}
+        {itemDetails?.remarks ? itemDetails?.remarks : "-"}
       </p>
-      <p>Status: {registrationDetails?.status}</p>
+      <p>Status: {itemDetails?.status}</p>
       <div className="flex flex-row gap-5">
         <Button
-          onClick={onApproveRegistration}
+          onClick={onApproveRequest}
           className="bg-green-700 hover:bg-green-700"
         >
           Approve
@@ -113,7 +122,7 @@ const RegistrationsDetails = () => {
             </AlertDialogHeader>
             <AlertDialogFooter>
               <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction onClick={onRejectRegistration}>
+              <AlertDialogAction onClick={onRejectRequest}>
                 Continue
               </AlertDialogAction>
             </AlertDialogFooter>
@@ -124,4 +133,4 @@ const RegistrationsDetails = () => {
   );
 };
 
-export default RegistrationsDetails;
+export default RequestsDetails;
