@@ -38,40 +38,45 @@ const RequestsDetails = () => {
 
   const fetchBase = async () => {
     try {
-        const {data} = await axiosClient.get("/api/items", {baseURL: "http://localhost:8080"})
-        //Set default base item
-        const baseItem = data.find((item: ItemRequest) => item.type === ItemType.BASE && item.id === 1);
-        if (baseItem) {
-            setAvatarCustomization(prev => ({
-                ...prev,
-                [ItemType.BASE]: baseItem
-            }));
-        }
+      const { data } = await axiosClient.get("/api/items", {
+        baseURL: "http://localhost:8080",
+      });
+      //Set default base item
+      const baseItem = data.find(
+        (item: ItemRequest) => item.type === ItemType.BASE && item.id === 1
+      );
+      if (baseItem) {
+        setAvatarCustomization((prev) => ({
+          ...prev,
+          [ItemType.BASE]: baseItem,
+        }));
+      }
     } catch (error) {
-        console.error("Error fetching items:", error);
+      console.error("Error fetching items:", error);
     }
-};
+  };
 
-const fetchItemDetails = async () => {
-  if (!id) return null;
-  try {
-    const { data } = await axiosClient.get(`/item_requests/${id}`);
-    setItemDetails(data);
-    setAvatarCustomization(prev => ({
-      ...prev,
-      [data.type]: data
-  }))
-  } catch (error) {
-    console.error(error);
-  }
-};
+  const fetchItemDetails = async () => {
+    if (!id) return null;
+    try {
+      const { data } = await axiosClient.get(`/item_requests/${id}`);
+      setItemDetails(data);
+      setAvatarCustomization((prev) => ({
+        ...prev,
+        [data.type]: data,
+      }));
+
+      if (data.type != "base") {
+        fetchBase();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
-    fetchBase()
     fetchItemDetails();
   }, [id]);
-
-  
 
   const onApproveRequest = async () => {
     const responseBody = {
@@ -119,15 +124,6 @@ const fetchItemDetails = async () => {
 
       <p>Name: {itemDetails?.name}</p>
       <p>Type: {itemDetails?.type}</p>
-
-      {/* <p>Preview: </p>
-      {itemDetails && <Image
-                            src={itemDetails.filepath}
-                            alt={itemDetails.name}
-                            width={200}
-                            height={200}
-                            className="rounded border"
-                        />} */}
       <div className="flex flex-col md:flex-row items-center md:items-start justify-center space-y-6 md:space-y-0 md:space-x-8">
         <div className="relative w-[170px] h-[170px]">
           <AvatarRenderer
